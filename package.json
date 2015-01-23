@@ -1,0 +1,22 @@
+{
+  "name": "mean_weather",
+  "version": "1.0.0",
+  "description": "Mean stack for weather data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GAO8A/mean_weather.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GAO8A/mean_weather/issues"
+  },
+  "homepage": "https://github.com/GAO8A/mean_weather",
+  "dependencies": {
+    "express": "^4.11.1"
+  }
+}
