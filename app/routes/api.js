@@ -1,69 +1,10 @@
-var express = require('express');
-var app = express();
-var adminRouter = express.Router();
-var mongoose = require('mongoose');
-var morgan = require('morgan');
-var bodyParser = require('body-parser');
-var port = process.env.PORT || 1337;
-var User = require('./models/users');
+var User = require('../models/users');
 var jwt = require('jsonwebtoken');
+var config = require('../../config');
 
-var superSecret = '1337street';
+var superSecret = config.secret;
 
-
-
-/// App config
-// use body parser so we can grab info from POST request
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
-
-// CORS stuff
-
-// configure our app to handle CORS requests
-app.use(function(req, res, next) {
-res.setHeader('Access-Control-Allow-Origin', '*');
-res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, \
-Authorization');
-next();
-});
-
-app.use(morgan('dev'))
-// allows us to log all requests to the console 
-// so we can see exactly what is going on.
-
-
-/// mongo stuff
-// ----------------------------------------------------
-
-mongoose.connect('mongodb://localhost/foobar');
-
-
-
-/// middleware
-// ----------------------------------------------------
-
-
-adminRouter.use(function(req,res,next){
-	console.log(req.method,req.url);
-	next();
-
-});
-
-adminRouter.param('name', function(req,res,next,name){
-	console.log('doing name validation on ' + name);
-
-	req.name = name;
-
-	next();
-
-});
-
-
-app.get('/',function(req,res){
-	res.send('HomePage')
-});
-
+module.exports = function(app, express) {
 
 // get instance of router
 // ----------------------------------------------------
@@ -237,47 +178,6 @@ apiRouter.route('/users/:user_id')
 					}); 
             });
 
+	return apiRouter;
 
-
-apiRouter.get('/me',function(req,res){
-	res.send(req.decoded);
-});
-
-
-/// more routes
-
-app.use('/api',apiRouter)
-
-
-
-
-
-/// routes
-
-// adminRouter.get('/',function(req,res){
-// 	res.send('root');
-// });
-
-// adminRouter.get('/users',function(req,res){
-// 	res.send('this is for users');
-// });
-
-// adminRouter.get('/users/:name',function(req,res){
-// 	res.send('hello ' + req.params.name + '!');
-// });
-
-// // for params middleware
-// adminRouter.get('/hello/:name',function(req,res){
-// 	res.send('hello ' + req.name + '!');
-// });
-
-// adminRouter.get('/posts',function(req,res){
-// 	res.send('this is for posts');
-// });
-
-// app.use('/admin', adminRouter);
-
-
-/// server
-app.listen(port);
-console.log('listening on port '+port);
+};
