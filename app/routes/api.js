@@ -80,7 +80,7 @@ apiRouter.use(function(req, res, next) {
 		
 		// if there is no token
 		// return an HTTP response of 403 (access forbidden) and an error message
-return res.status(403).send({success: false, message: 'No token provided.'});
+		return res.status(403).send({success: false, message: 'No token provided.'});
 
 
 	}
@@ -177,6 +177,11 @@ apiRouter.route('/users/:user_id')
                         	res.json({ message: 'Successfully deleted' });
 					}); 
             });
+
+	// api endpoint to get user information
+	apiRouter.get('/me', function(req, res) {
+		res.send(req.decoded);
+	});
 
 	return apiRouter;
 
